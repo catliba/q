@@ -1,3 +1,5 @@
+# O(n^2) Time | O(1) Space
+# there is a better way to do this 
 def searchTriplets(self, arr, target):
     count = 0
     arr_sorted = sorted(arr)
