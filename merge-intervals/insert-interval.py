@@ -1,43 +1,40 @@
 class Interval:
- def __init__(self, start, end):
-   self.start = start
-   self.end = end
+  def __init__(self, start, end):
+    self.start = start
+    self.end = end
 
-def insert(self, intervals, new_interval):
-  merged = []
-  start = intervals[0].start
-  end = intervals[0].end
-  for i in range(len(intervals)):
-    interval = intervals[i]
-    print(f"start: {start}, end: {end}")
-    # 6 scenarios
-    # no overlap // 2 cases
-    if end < new_interval.start or start > new_interval.end:
-      merged.append(Interval(start, end))
-      start = interval.start
-      end = interval.end
-    # interval overlaps new_interval where interval starts before new_interval and new_interval trails
-    if end > new_interval.start and new_interval.end > end:
-      start = interval.start
-      end = new_interval.end
-    # if interval contains new_interval
-    if start < new_interval.start and end > new_interval.end:
-      return [intervals]
-    # if overlap where new_interval starts before interval and interval trails:
-    if new_interval.start < start and end > new_interval.end:
-      start = new_interval.start
-      end = interval.end
-    # if interval is contained by new_interval
-    if start > new_interval.start and end < new_interval.end:
-      start = min(start, new_interval.start)
-      end = max(end, new_interval.end)
-  merged.append(Interval(start, end))
-  return merged
 
-def insert(self, intervals, new_interval):
-    for interval in intervals:
-      if interval.end >= new_interval.start:
-        add = 
-        interval.start = min(new_interval.start, interval.start)
-        interval.end = max(new_interval.end, interval.end)
-        
+# Long Way
+class Solution:
+  def insert(self, intervals, new_interval):
+    # Edge case: empty
+    if not intervals:
+      return [new_interval]
+
+    # 1) Build a single list with new_interval inserted ONCE in order
+    inserted = False
+    ordered = []
+    for iv in intervals:
+      if not inserted and new_interval.start < iv.start:
+        ordered.append(new_interval)
+        inserted = True
+      ordered.append(iv)
+    if not inserted:
+      ordered.append(new_interval)
+
+    # 2) Merge the ordered list
+    merged = []
+    start, end = ordered[0].start, ordered[0].end
+    for iv in ordered[1:]:
+      if iv.start <= end:                # overlap
+        end = max(end, iv.end)
+      else:                              # no overlap, push previous
+        merged.append(Interval(start, end))
+        start, end = iv.start, iv.end
+    merged.append(Interval(start, end))
+    return merged
+  
+# Better solution:
+# move pointer to the instance where insert interval start is not greater than end of interval i
+# for intervals that overlap, we employ min max between the two intervals
+# add the rest of intervals where start i is larger than end of insert
