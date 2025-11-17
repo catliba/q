@@ -14,7 +14,6 @@ class Solution:
         min_rooms = 0
         min_heap = []
         for meeting in meetings:
-            heapq.heappush(min_heap, meeting)
             while min_heap and meeting.start >= min_heap[0].end:
                 heapq.heappop(min_heap)
             heapq.heappush(min_heap, meeting)
