@@ -8,7 +8,7 @@
 class Solution:
 
   def findDiameter(self, root):
-    self.treeDiameter = 0;
+    self.treeDiameter = 0
     diameters = []
     self.dfs(root, diameters)
     return max(diameters)
