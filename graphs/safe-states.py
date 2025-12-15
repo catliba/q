@@ -6,3 +6,5 @@ class Solution:
         return result
     
     def dfs(self, node, visited):
+        if visited[node] == 1:
+            return True
