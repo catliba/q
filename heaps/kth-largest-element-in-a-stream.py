@@ -1,3 +1,5 @@
+import heapq
+
 class KthLargest(object):
 
     def __init__(self, k, nums):
@@ -5,7 +7,12 @@ class KthLargest(object):
         :type k: int
         :type nums: List[int]
         """
-        
+        self.k = k
+        self.minHeap = nums
+        heapq.heapify(self.minHeap)
+        while len(self.minHeap) > k:
+            heapq.heappop(self.minHeap)
+
         
 
     def add(self, val):
@@ -13,4 +20,7 @@ class KthLargest(object):
         :type val: int
         :rtype: int
         """
+        heapq.heappush(self.minHeap, val)
+        if len(self.minHeap) > k:
+            heapq.heappop(self.minHeap)
         
